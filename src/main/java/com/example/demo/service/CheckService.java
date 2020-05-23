@@ -73,7 +73,7 @@ public class CheckService {
 			}
 			fis.close();
 
-			FileOutputStream outFile = new FileOutputStream(new File("/home/user/Desktop/nandhu/update.xlsx"));
+			FileOutputStream outFile = new FileOutputStream(new File("/home/user/Desktop/update.xlsx"));
 			wb.write(outFile);
 			outFile.close();
 
