@@ -139,6 +139,7 @@ public class CheckService {
 				System.out.println("same as prev");
 			}
 		} catch (Exception e) {
+			return url;
 			System.out.println(e.getMessage());
 		}
 
