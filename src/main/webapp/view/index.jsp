@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="ISO-8859-1">
-<title>Nandy Baby</title>
+<title>Home</title>
  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
@@ -44,12 +44,20 @@
     <form action = "xlForm" method = "post"enctype="multipart/form-data" >
      <div class="panel-body">
    <div class="form-group">
-    <label for="start">Starting index :</label>
+    <label for="start">Starting Index :</label>
     <input type="number"name="start" class="form-control" style="width:50%;margin:auto"required = "true"  id="start">
   </div>
   <div class="form-group">
     <label for="end">End Index  :</label>
     <input type="number"name="end" class="form-control"style="width:50%;margin:auto;"required = "true" id="end">
+  </div>
+  <div class="form-group">
+    <label for="domain">Domain column Index :</label>
+    <input type="number"name="domain" class="form-control"style="width:50%;margin:auto;"required = "true" id="domain">
+  </div>
+  <div class="form-group">
+    <label for="updatedDomain">Updated Domain Index  :</label>
+    <input type="number"name="updatedDomain" class="form-control"style="width:50%;margin:auto;"required = "true" id="updatedDomain">
   </div>
  
   <div class="form-group">
@@ -77,7 +85,7 @@
 	  
 	  var start = document.getElementById("start").value;
 	  var end = document.getElementById("end").value;
-	  alert(start);
+	 
 	  if(end < start){
 		  alert(comming);
 		  document.getElementById("error").innerHTML = "End index must be greater than Start";
