@@ -4,7 +4,8 @@ public class CheckCondition {
 
 	int start;
 	int end;
-	
+	int domain;
+	int updatedDomain;
 	
 	
 	public CheckCondition() {
@@ -12,6 +13,35 @@ public class CheckCondition {
 	}
 	
 	
+	public CheckCondition(int start, int end, int domain, int updatedDomain) {
+		super();
+		this.start = start;
+		this.end = end;
+		this.domain = domain;
+		this.updatedDomain = updatedDomain;
+	}
+
+
+	public int getDomain() {
+		return domain;
+	}
+
+
+	public void setDomain(int domain) {
+		this.domain = domain;
+	}
+
+
+	public int getUpdatedDomain() {
+		return updatedDomain;
+	}
+
+
+	public void setUpdatedDomain(int updatedDomain) {
+		this.updatedDomain = updatedDomain;
+	}
+
+
 	public CheckCondition(int start, int end) {
 		super();
 		this.start = start;
