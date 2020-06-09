@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
@@ -24,7 +25,7 @@ public class CheckService {
 	static boolean redirected = false;
 	static boolean errorPage = true;
 
-	public void checkUrl(File file, CheckCondition condition) {
+	public File checkUrl(File file, CheckCondition condition) {
 
 		try {
 			FileInputStream fis = new FileInputStream(file); // obtaining bytes from the file
@@ -39,60 +40,80 @@ public class CheckService {
 			XSSFFont font = wb.createFont();
 			font.setColor(IndexedColors.RED.getIndex());
 			style.setFont(font);
-
+			
+			
 			for (int rowIndex = condition.getStart(); rowIndex <= condition.getEnd(); rowIndex++) {
 				Row row = sheet.getRow(rowIndex);
 				if (row != null) {
-					Cell cell = row.getCell(4);
+					Cell cell = row.getCell(condition.getDomain());
 					if (cell != null) {
 						// Found column and there is value in the cell.
 
 						String host = cell.getStringCellValue();
-						host = trimUrl(host);
-						URL url = new URL("http://www." + host);
-						URL redirectedUrl = getFinalURL(url, host);
-
-						if(errorPage) {
-							Cell newCell = sheet.getRow(rowIndex).getCell(6,Row.CREATE_NULL_AS_BLANK);
-							newCell.setCellStyle(style);
-							newCell.setCellValue("Site can't be reached");
+						
+						
+						if (host.equals("")) {
+							System.out.println("empty");
+						} else {
 							
-						}else if (redirected) {
+							host = trimUrl(host);
+							URL url = new URL("http://www." + host);
+							URL redirectedUrl = getFinalURL(url, host,"");
 
-							Cell newCell = sheet.getRow(rowIndex).getCell(6,Row.CREATE_NULL_AS_BLANK);
-							newCell.setCellStyle(style);
-							newCell.setCellValue(redirectedUrl.toString());
+							if (errorPage) {
+								Cell newCell = sheet.getRow(rowIndex).getCell(condition.getUpdatedDomain(), Row.CREATE_NULL_AS_BLANK);
+								newCell.setCellStyle(style);
+								newCell.setCellValue("Site can't be reached");
 
+							} else if (redirected) {
+								
+
+								Cell newCell = sheet.getRow(rowIndex).getCell(condition.getUpdatedDomain(), Row.CREATE_NULL_AS_BLANK);
+								newCell.setCellStyle(style);
+								newCell.setCellValue(redirectedUrl.toString());
+
+							}
+
+							redirected = false;
+							errorPage = true;
+							// Do something with the cellValueMaybeNull here ...
 						}
-
-						redirected = false;
-						errorPage = true;
-						// Do something with the cellValueMaybeNull here ...
 					}
 				}
+				
 			}
+
 			fis.close();
 
-			FileOutputStream outFile = new FileOutputStream(new File("/home/user/Desktop/update.xlsx"));
+			File updatedFile = new File("updated.xlsx");
+			FileOutputStream outFile = new FileOutputStream(updatedFile);
+			
 			wb.write(outFile);
 			outFile.close();
-
+			File getFile = new File("updated.xlsx");
+			return getFile;
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		return null;
 
 	}
 
-	public static URL getFinalURL(URL url, String host) throws URISyntaxException {
+	public static URL getFinalURL(URL url, String host,String previous) throws URISyntaxException {
 
+		System.out.println(url);
 		try {
 
+			if(!url.toString().equals(previous)) {
+				
 			HttpURLConnection con = (HttpURLConnection) url.openConnection();
 			con.setInstanceFollowRedirects(false);
 			con.setRequestProperty("User-Agent",
 					"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/62.0.3202.94 Safari/537.36");
 			con.addRequestProperty("Accept-Language", "en-US,en;q=0.8");
 			con.addRequestProperty("Referer", "https://www.google.com/");
+			con.setReadTimeout(25000);
 			con.connect();
 			// con.getInputStream();
 			int resCode = con.getResponseCode();
@@ -103,13 +124,16 @@ public class CheckService {
 			}
 			if (resCode == HttpURLConnection.HTTP_SEE_OTHER || resCode == HttpURLConnection.HTTP_MOVED_PERM
 					|| resCode == HttpURLConnection.HTTP_MOVED_TEMP) {
-				errorPage = false; 
+				errorPage = false;
 				String Location = con.getHeaderField("Location");
 				if (Location.startsWith("/")) {
 					Location = url.getProtocol() + "://" + url.getHost() + Location;
 				}
 
-				return getFinalURL(new URL(Location), host);
+				return getFinalURL(new URL(Location), host,url.toString());
+			}
+			}else {
+				System.out.println("same as prev");
 			}
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
@@ -126,16 +150,39 @@ public class CheckService {
 			System.out.println("not host equals , url host is " + url.getHost());
 			redirected = true;
 		}
+		
+		
 		return url;
+		
 	}
 
 	public static String trimUrl(String url) {
 
+		if(url.startsWith("http")) {
+			url = url.substring(8);
+		}
+		if(url.startsWith(".")) {
+			url = url.substring(1);
+		}
 		if (url.contains("www.")) {
 			url = url.substring(4);
+		}
+
+		if (url.contains("ww.")) {
+			url = url.substring(3);
 		}
 
 		return url;
 	}
 
+	public static URL trimSlash(URL url,String host) throws MalformedURLException {
+		
+		String surl = url.toString();
+		if(surl.contains("/")) {
+			 surl = surl.split("/")[0];
+			
+		}
+		
+		return new URL(surl);
+	}
 }
