@@ -58,6 +58,8 @@ public class CheckService {
 							
 							host = trimUrl(host);
 							URL url = new URL("http://www." + host);
+							long start = System.currentTimeMillis();
+
 							URL redirectedUrl = getFinalURL(url, host,"");
 
 							if (errorPage) {
@@ -113,10 +115,10 @@ public class CheckService {
 					"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/62.0.3202.94 Safari/537.36");
 			con.addRequestProperty("Accept-Language", "en-US,en;q=0.8");
 			con.addRequestProperty("Referer", "https://www.google.com/");
-			//con.setReadTimeout(25000);
+			con.setReadTimeout(2500);
 			con.connect();
 			// con.getInputStream();
-			int resCode = con.getResponseCode();
+			int resCode = con.getResponseCode();s
 			if (resCode == 200) {
 
 				errorPage = false;
