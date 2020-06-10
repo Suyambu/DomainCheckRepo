@@ -17,6 +17,7 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFFont;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.springframework.scheduling.annotation.Async;
 
 import com.example.demo.model.CheckCondition;
 
@@ -102,6 +103,7 @@ public class CheckService {
 
 	}
 
+	@Async
 	public static URL getFinalURL(URL url, String host,String previous) throws URISyntaxException {
 
 		System.out.println(url);
