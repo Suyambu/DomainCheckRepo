@@ -109,7 +109,7 @@ public class HomeController {
 	}
 	
 	@RequestMapping(value = "/home")
-	public ModelAndView register() {
+	public ModelAndView redHome() {
 
 		int id = userService.getId(user);
 		if (id != 0) {
