@@ -107,6 +107,22 @@ public class HomeController {
 		return mv;
 
 	}
+	
+	@RequestMapping(value = "/home")
+	public ModelAndView register() {
+
+		int id = userService.getId(user);
+		if (id != 0) {
+			HttpSession session=request.getSession();  
+	        session.setAttribute("id",id); 
+			ModelAndView mv = new ModelAndView("index");
+			return mv;
+		} else {
+			
+			ModelAndView mv = new ModelAndView("home");	
+			return mv;
+		}
+	}
 
 	@RequestMapping(value = "/registerUser")
 	public ModelAndView registerUser(@ModelAttribute("user") User user) {
@@ -120,7 +136,7 @@ public class HomeController {
 	@RequestMapping(value = "/login")
 	public ModelAndView login(HttpServletRequest request,@ModelAttribute("user") User user) {
 
-		System.out.println(user.getPassword());
+		
 		int id = userService.getId(user);
 		if (id != 0) {
 			HttpSession session=request.getSession();  
