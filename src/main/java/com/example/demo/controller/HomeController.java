@@ -111,17 +111,14 @@ public class HomeController {
 	@RequestMapping(value = "/home")
 	public ModelAndView redHome() {
 
-		int id = userService.getId(user);
-		if (id != 0) {
-			HttpSession session=request.getSession();  
-	        session.setAttribute("id",id); 
-			ModelAndView mv = new ModelAndView("index");
-			return mv;
-		} else {
-			
+		HttpSession session=request.getSession(false);  
+        int userId = (int) session.getAttribute("id");
+        if(userId == 0) {
+        	response.sendRedirect("/");
+        }
+	
 			ModelAndView mv = new ModelAndView("home");	
 			return mv;
-		}
 	}
 
 	@RequestMapping(value = "/registerUser")
