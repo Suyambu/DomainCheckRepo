@@ -108,18 +108,18 @@ public class HomeController {
 
 	}
 	
-	@RequestMapping(value = "/home")
-	public ModelAndView redHome() {
+		@RequestMapping(value = "/home")
+	public ModelAndView redHome(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
 		HttpSession session=request.getSession(false);  
         int userId = (int) session.getAttribute("id");
         if(userId == 0) {
         	response.sendRedirect("/");
         }
-	
-			ModelAndView mv = new ModelAndView("home");	
-			return mv;
+        ModelAndView mv = new ModelAndView("home");
+		return mv;
 	}
+
 
 	@RequestMapping(value = "/registerUser")
 	public ModelAndView registerUser(@ModelAttribute("user") User user) {
