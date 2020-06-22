@@ -6,6 +6,7 @@ public class CheckCondition {
 	int end;
 	int domain;
 	int updatedDomain;
+	String fileName;
 	
 	
 	public CheckCondition() {
@@ -29,6 +30,16 @@ public class CheckCondition {
 
 	public void setDomain(int domain) {
 		this.domain = domain;
+	}
+
+
+	public String getFileName() {
+		return fileName;
+	}
+
+
+	public void setFileName(String fileName) {
+		this.fileName = fileName;
 	}
 
 
