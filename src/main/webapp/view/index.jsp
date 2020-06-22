@@ -1,13 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="ISO-8859-1">
-<title>Home</title>
- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
   <style>
 .loader {
   border: 16px solid #f3f3f3;
@@ -31,10 +22,7 @@
 }
 </style>
 </head>
-<body>
-
-<div class="container">
-
+<jsp:include page="header.jsp" />
 
   <h2>Domain Check List</h2>
   <div class="panel panel-primary">
@@ -60,6 +48,11 @@
     <input type="number"name="updatedDomain" class="form-control"style="width:50%;margin:auto;"required = "true" id="updatedDomain">
   </div>
  
+ <div class="form-group">
+    <label for="fileName">Updated File Name :</label>
+    <input type="text"name="fileName" class="form-control"style="width:50%;margin:auto;"required = "true" id="fileName">
+  </div>
+ 
   <div class="form-group">
    <label for="file">Xl File  :</label>
   <input type="file" name ="mfile" class="form-control" style="width:50%;margin:auto;" required = "true"  placeholder="Select a file"id="file">
@@ -76,7 +69,6 @@
     
     
     
-  </div>
   </div>
   
   <script type="text/javascript">
@@ -103,5 +95,5 @@
   </script>
  
 
-</body>
-</html>
+
+<jsp:include page="footer.jsp" />
