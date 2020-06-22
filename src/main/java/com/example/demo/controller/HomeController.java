@@ -116,7 +116,7 @@ public class HomeController {
         if(userId == 0) {
         	response.sendRedirect("/");
         }
-        ModelAndView mv = new ModelAndView("home");
+        ModelAndView mv = new ModelAndView("index");
 		return mv;
 	}
 
